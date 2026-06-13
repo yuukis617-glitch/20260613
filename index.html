@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>助成金・補助金 管理ツール</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --gray: #9ca3af;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+    }
+
+    body {
+      font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.02em; }
+    header .subtitle { font-size: 0.75rem; opacity: 0.75; margin-top: 2px; }
+
+    .tabs {
+      display: flex;
+      background: white;
+      border-bottom: 2px solid var(--border);
+      padding: 0 24px;
+    }
+    .tab-btn {
+      padding: 14px 24px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-btn:hover:not(.active) { color: var(--text); background: var(--bg); }
+
+    .tab-content { display: none; padding: 24px; max-width: 1200px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+
+    /* ─── Dashboard ─── */
+    .dashboard-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-muted); }
+    .legend span { display: flex; align-items: center; gap: 4px; }
+
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      background: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .filter-btn:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+
+    .alert-banner {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .alert-banner.hidden { display: none; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--gray);
+      padding: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .card.status-open  { border-left-color: var(--green); }
+    .card.status-upcoming { border-left-color: var(--yellow); }
+    .card.status-closed { border-left-color: var(--red); }
+    .card.status-unknown { border-left-color: var(--gray); }
+    .card.alert-highlight { box-shadow: 0 0 0 2px #f97316; }
+
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+    .card-name { font-size: 0.95rem; font-weight: 700; line-height: 1.4; }
+    .card-shortname { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      color: white;
+    }
+    .badge-open     { background: var(--green); }
+    .badge-upcoming { background: var(--yellow); }
+    .badge-closed   { background: var(--red); }
+    .badge-unknown  { background: var(--gray); }
+
+    .card-info { font-size: 0.82rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+    .card-info .row { display: flex; gap: 6px; }
+    .card-info .label { min-width: 72px; font-weight: 600; color: var(--text); }
+    .card-info .value { flex: 1; }
+    .deadline-days { display: inline-block; background: #fef2f2; color: #b91c1c; padding: 1px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-left: 4px; }
+    .deadline-days.soon { background: #fff7ed; color: #c2410c; }
+
+    .card-footer { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+    .card-link {
+      font-size: 0.82rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    .updated { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ─── Diagnostic ─── */
+    .diag-container { max-width: 720px; margin: 0 auto; }
+    .diag-progress { display: flex; gap: 0; margin-bottom: 28px; }
+    .progress-step {
+      flex: 1;
+      text-align: center;
+      padding: 8px 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 3px solid var(--border);
+      position: relative;
+    }
+    .progress-step.done { color: var(--green); border-bottom-color: var(--green); }
+    .progress-step.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .diag-step { display: none; }
+    .diag-step.active { display: block; }
+
+    .diag-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .diag-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px; }
+
+    .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+    @media (max-width: 480px) { .options-grid { grid-template-columns: 1fr; } }
+    .options-grid.single { grid-template-columns: 1fr; }
+
+    .option-btn {
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      background: white;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: left;
+      transition: all 0.15s;
+      color: var(--text);
+    }
+    .option-btn:hover { border-color: var(--primary); background: #eff6ff; }
+    .option-btn.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); font-weight: 700; }
+
+    .diag-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+    .btn-primary {
+      padding: 10px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:disabled { background: var(--gray); cursor: not-allowed; }
+    .btn-secondary {
+      padding: 10px 20px;
+      background: white;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Result */
+    .result-header { margin-bottom: 20px; }
+    .result-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+    .result-subtitle { font-size: 0.88rem; color: var(--text-muted); }
+    .result-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .result-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--gray);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .result-card.status-open { border-left-color: var(--green); }
+    .result-card.status-upcoming { border-left-color: var(--yellow); }
+    .result-card.status-closed { border-left-color: var(--red); }
+    .result-empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.95rem; }
+
+    .result-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .link-to-dashboard {
+      font-size: 0.88rem;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 8px 0;
+    }
+    .link-to-dashboard:hover { text-decoration: underline; }
+
+    .no-cards { text-align: center; padding: 40px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>助成金・補助金 管理ツール</h1>
+    <div class="subtitle">社会保険労務士事務所 顧問先向け公募管理＆簡易診断</div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="switchTab('dashboard')">① 公募状況ダッシュボード</button>
+  <button class="tab-btn" onclick="switchTab('diagnostic')">② 簡易診断ツール</button>
+</nav>
+
+<!-- ========== TAB 1: Dashboard ========== -->
+<div id="tab-dashboard" class="tab-content active">
+  <div class="dashboard-header">
+    <div>
+      <div class="legend">
+        <span>🟢 公募中</span>
+        <span>🔴 締切済</span>
+        <span>🟡 近日公募予定</span>
+        <span>⚪ 情報収集中</span>
+      </div>
+      <div class="updated" id="last-updated"></div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="setFilter('all', this)">すべて</button>
+      <button class="filter-btn" onclick="setFilter('open', this)">公募中のみ</button>
+      <button class="filter-btn" onclick="setFilter('upcoming', this)">近日公募予定</button>
+    </div>
+  </div>
+
+  <div class="alert-banner hidden" id="alert-banner"></div>
+
+  <div class="cards-grid" id="cards-grid"></div>
+</div>
+
+<!-- ========== TAB 2: Diagnostic ========== -->
+<div id="tab-diagnostic" class="tab-content">
+  <div class="diag-container">
+    <div class="diag-progress">
+      <div class="progress-step active" id="prog-1">STEP 1<br>業種</div>
+      <div class="progress-step" id="prog-2">STEP 2<br>規模</div>
+      <div class="progress-step" id="prog-3">STEP 3<br>課題</div>
+      <div class="progress-step" id="prog-4">結果</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="diag-step active" id="step-1">
+      <div class="diag-title">STEP 1：業種を選択してください</div>
+      <div class="diag-subtitle">貴社（または顧問先）の業種に最も近いものを1つ選んでください。</div>
+      <div class="options-grid" id="step1-options"></div>
+      <div class="diag-nav">
+        <span></span>
+        <button class="btn-primary" id="btn-step1-next" onclick="goStep(2)" disabled>次へ →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="diag-step" id="step-2">
+      <div class="diag-title">STEP 2：従業員規模を選択してください</div>
+      <div class="diag-subtitle">パート・アルバイトを含む従業員の合計人数を選んでください。</div>
+      <div class="options-grid" id="step2-options"></div>
+      <div class="diag-nav">
+        <button class="btn-secondary" onclick="goStep(1)">← 戻る</button>
+        <button class="btn-primary" id="btn-step2-next" onclick="goStep(3)" disabled>次へ →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="diag-step" id="step-3">
+      <div class="diag-title">STEP 3：抱えている課題を選択してください</div>
+      <div class="diag-subtitle">当てはまるものをすべて選んでください（複数選択可）。</div>
+      <div class="options-grid single" id="step3-options"></div>
+      <div class="diag-nav">
+        <button class="btn-secondary" onclick="goStep(2)">← 戻る</button>
+        <button class="btn-primary" id="btn-step3-next" onclick="showResult()" disabled>診断する</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="diag-step" id="step-result">
+      <div class="result-header">
+        <div class="result-title" id="result-title">診断結果</div>
+        <div class="result-subtitle" id="result-subtitle"></div>
+      </div>
+      <div class="result-cards" id="result-cards"></div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="resetDiag()">診断をやり直す</button>
+        <a class="link-to-dashboard" onclick="switchTab('dashboard')">→ 詳細はダッシュボードで確認</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────
+// Master Data
+// ─────────────────────────────
+const SUBSIDIES = [
+  {
+    id: "career_up_01",
+    name: "キャリアアップ助成金",
+    shortName: "キャリアアップ",
+    status: "open",
+    deadline: null,
+    deadlineNote: "各コース・支給申請期限あり",
+    maxAmount: "コースによる（例：正社員化コース 最大80万円/人）",
+    subsidyRate: "定額支給",
+    targetScale: ["中小企業", "全規模"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["非正規社員を正社員に転換したい", "採用・定着に困っている"],
+    officialUrl: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/part_haken/jigyounushi/career.html",
+    notes: "非正規→正社員転換等に幅広く使えるコースあり。厚労省所管。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "tokyo_regular_01",
+    name: "東京都正規雇用等転換奨励金",
+    shortName: "東京都正規転換",
+    status: "open",
+    deadline: "2026-09-30",
+    deadlineNote: "予算終了次第終了の場合あり",
+    maxAmount: "1人あたり最大50万円",
+    subsidyRate: "定額支給",
+    targetScale: ["中小企業", "小規模事業者"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["非正規社員を正社員に転換したい", "採用・定着に困っている"],
+    officialUrl: "https://www.shigotozaidan.or.jp/",
+    notes: "東京都内事業者限定。東京しごと財団が窓口。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "tokyo_charm_01",
+    name: "手取り時間創出・魅力ある職場づくり推進奨励金",
+    shortName: "魅力ある職場づくり奨励金",
+    status: "upcoming",
+    deadline: null,
+    deadlineNote: "2026年度公募予定",
+    maxAmount: "最大200万円",
+    subsidyRate: "補助率3/4",
+    targetScale: ["中小企業"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["業務効率化・IT化を進めたい", "採用・定着に困っている"],
+    officialUrl: "https://www.metro.tokyo.lg.jp/",
+    notes: "東京都独自の奨励金。職場環境改善・生産性向上が対象。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "work_life_01",
+    name: "両立支援等助成金",
+    shortName: "両立支援助成金",
+    status: "open",
+    deadline: null,
+    deadlineNote: "年度内随時受付",
+    maxAmount: "コースによる（例：出生時両立支援コース 最大57万円）",
+    subsidyRate: "定額支給",
+    targetScale: ["中小企業", "全規模"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["育児・介護と仕事の両立を支援したい", "採用・定着に困っている"],
+    officialUrl: "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kodomo/shokuba_kosodate/ryouritsu01/index.html",
+    notes: "育児・介護と仕事の両立支援に多様なコースあり。厚労省所管。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "tokyo_ikukatsu_01",
+    name: "働く人の育業応援奨励金",
+    shortName: "育業応援奨励金",
+    status: "open",
+    deadline: "2026-12-31",
+    deadlineNote: "令和6年度分",
+    maxAmount: "最大240万円（中小企業）",
+    subsidyRate: "定額支給",
+    targetScale: ["中小企業"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["育児・介護と仕事の両立を支援したい"],
+    officialUrl: "https://www.shigotozaidan.or.jp/",
+    notes: "東京都内事業者が対象。育業（育児休業）取得推進を支援。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "tokyo_innovation_01",
+    name: "経営力強化に向けた創意工夫チャレンジ促進事業",
+    shortName: "創意工夫チャレンジ",
+    status: "upcoming",
+    deadline: null,
+    deadlineNote: "2026年度第2次公募予定",
+    maxAmount: "最大300万円",
+    subsidyRate: "補助率2/3",
+    targetScale: ["中小企業", "小規模事業者"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["新事業・新分野に進出したい", "業務効率化・IT化を進めたい", "設備投資・省力化をしたい"],
+    officialUrl: "https://www.tokyo-kosha.or.jp/",
+    notes: "東京都中小企業振興公社が窓口。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "monozukuri_01",
+    name: "ものづくり補助金",
+    shortName: "ものづくり補助金",
+    status: "open",
+    deadline: "2026-08-22",
+    deadlineNote: "第20次締切（予定）",
+    maxAmount: "最大5,000万円（グローバル展開型）",
+    subsidyRate: "補助率1/2〜2/3（中小・小規模で異なる）",
+    targetScale: ["中小企業", "小規模事業者"],
+    targetIndustry: ["製造業", "全業種（一部）"],
+    targetIssues: ["設備投資・省力化をしたい", "新事業・新分野に進出したい", "従業員のスキルアップ・研修をしたい"],
+    officialUrl: "https://portal.monodukuri-hojo.jp/",
+    notes: "製造業・サービス業等の設備投資・試作品開発に活用可。中小企業庁所管。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "new_biz_01",
+    name: "新事業進出補助金",
+    shortName: "新事業進出補助金",
+    status: "upcoming",
+    deadline: null,
+    deadlineNote: "2026年度公募予定",
+    maxAmount: "最大3,000万円",
+    subsidyRate: "補助率1/2",
+    targetScale: ["中小企業"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["新事業・新分野に進出したい"],
+    officialUrl: "https://www.chusho.meti.go.jp/",
+    notes: "中小企業庁所管。新市場・新分野への参入を支援。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "labor_saving_01",
+    name: "省力化投資補助金",
+    shortName: "省力化補助金",
+    status: "open",
+    deadline: "2026-07-31",
+    deadlineNote: "第3回公募締切（予定）",
+    maxAmount: "最大1,500万円",
+    subsidyRate: "補助率1/2（中小企業）",
+    targetScale: ["中小企業", "小規模事業者"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["設備投資・省力化をしたい", "業務効率化・IT化を進めたい", "賃上げを実施したい"],
+    officialUrl: "https://shoryokuka.smrj.go.jp/",
+    notes: "人手不足解消・省力化投資に特化。中小企業庁所管。",
+    lastUpdated: "2026-06-13"
+  },
+  {
+    id: "large_growth_01",
+    name: "中堅・中小企業の賃上げに向けた省力化等の大規模成長投資補助金",
+    shortName: "大規模成長投資補助金",
+    status: "closed",
+    deadline: "2026-03-31",
+    deadlineNote: "第2次公募終了",
+    maxAmount: "最大50億円",
+    subsidyRate: "補助率1/3",
+    targetScale: ["中堅企業", "中小企業"],
+    targetIndustry: ["全業種"],
+    targetIssues: ["賃上げを実施したい", "設備投資・省力化をしたい", "新事業・新分野に進出したい"],
+    officialUrl: "https://www.chusho.meti.go.jp/keiei/seichou/index.html",
+    notes: "大規模投資・賃上げを一体的に支援。次回公募情報を要確認。",
+    lastUpdated: "2026-06-13"
+  }
+];
+
+const TODAY = new Date("2026-06-13");
+
+// ─────────────────────────────
+// Utility
+// ─────────────────────────────
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  return Math.ceil((d - TODAY) / (1000 * 60 * 60 * 24));
+}
+
+function statusLabel(s) {
+  return { open: "公募中", upcoming: "近日公募予定", closed: "締切済", unknown: "情報収集中" }[s] || "情報収集中";
+}
+
+// ─────────────────────────────
+// Dashboard
+// ─────────────────────────────
+let currentFilter = "all";
+
+function renderCards(filter) {
+  const grid = document.getElementById("cards-grid");
+  let items = SUBSIDIES;
+  if (filter === "open") items = SUBSIDIES.filter(s => s.status === "open");
+  if (filter === "upcoming") items = SUBSIDIES.filter(s => s.status === "upcoming");
+
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="no-cards">該当する助成金・補助金はありません。</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(s => buildCard(s)).join("");
+}
+
+function buildCard(s, compact = false) {
+  const days = daysUntil(s.deadline);
+  const isAlert = days !== null && days >= 0 && days <= 7;
+  const isPast  = days !== null && days < 0;
+  const tag = compact ? "div" : "div";
+
+  let deadlineHtml = "—";
+  if (s.deadline) {
+    let daysSpan = "";
+    if (days !== null && !isPast) {
+      const cls = days <= 7 ? "deadline-days soon" : "deadline-days";
+      daysSpan = `<span class="${cls}">残り${days}日</span>`;
+    } else if (isPast) {
+      daysSpan = `<span class="deadline-days">締切済</span>`;
+    }
+    deadlineHtml = `${s.deadline}${daysSpan}`;
+  }
+  if (s.deadlineNote) deadlineHtml += `<br><small style="color:var(--text-muted)">${s.deadlineNote}</small>`;
+
+  const alertClass = isAlert ? " alert-highlight" : "";
+  const cls = compact ? `result-card status-${s.status}` : `card status-${s.status}${alertClass}`;
+
+  return `
+    <div class="${cls}">
+      <div class="card-header">
+        <div>
+          <div class="card-name">${s.name}</div>
+          ${s.shortName && s.shortName !== s.name ? `<div class="card-shortname">（${s.shortName}）</div>` : ""}
+        </div>
+        <span class="badge badge-${s.status}">${statusLabel(s.status)}</span>
+      </div>
+      <div class="card-info">
+        <div class="row"><span class="label">申請締切</span><span class="value">${deadlineHtml}</span></div>
+        <div class="row"><span class="label">上限額</span><span class="value">${s.maxAmount || "—"}</span></div>
+        <div class="row"><span class="label">助成率</span><span class="value">${s.subsidyRate || "—"}</span></div>
+        <div class="row"><span class="label">対象規模</span><span class="value">${s.targetScale.join("・")}</span></div>
+        <div class="row"><span class="label">対象業種</span><span class="value">${s.targetIndustry.join("・")}</span></div>
+        ${s.notes ? `<div class="row"><span class="label">備考</span><span class="value">${s.notes}</span></div>` : ""}
+      </div>
+      <div class="card-footer">
+        <a class="card-link" href="${s.officialUrl}" target="_blank" rel="noopener">🔗 公式サイトを見る</a>
+        <span style="float:right;font-size:0.72rem;color:var(--text-muted)">更新: ${s.lastUpdated}</span>
+      </div>
+    </div>`;
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderCards(f);
+}
+
+function renderAlertBanner() {
+  const alerts = SUBSIDIES.filter(s => {
+    const d = daysUntil(s.deadline);
+    return d !== null && d >= 0 && d <= 7;
+  });
+  const banner = document.getElementById("alert-banner");
+  if (alerts.length > 0) {
+    banner.classList.remove("hidden");
+    banner.innerHTML = `⚠️ <strong>締切7日以内：</strong> ${alerts.map(s => `${s.shortName || s.name}（残り${daysUntil(s.deadline)}日）`).join("、")}`;
+  }
+}
+
+// ─────────────────────────────
+// Diagnostic
+// ─────────────────────────────
+const STEP1_OPTIONS = ["医療・歯科・介護", "IT・情報通信", "製造業", "建設業", "小売・サービス業", "その他"];
+const STEP2_OPTIONS = ["5人以下", "6〜20人", "21〜100人", "101〜300人", "300人超"];
+const STEP3_OPTIONS = [
+  "採用・定着に困っている",
+  "非正規社員を正社員に転換したい",
+  "育児・介護と仕事の両立を支援したい",
+  "設備投資・省力化をしたい",
+  "賃上げを実施したい",
+  "新事業・新分野に進出したい",
+  "従業員のスキルアップ・研修をしたい",
+  "業務効率化・IT化を進めたい"
+];
+
+let diagState = { industry: null, scale: null, issues: new Set() };
+
+function buildOptions(containerId, options, isMulti, stateKey) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = options.map((opt, i) => `
+    <button class="option-btn${(isMulti ? diagState.issues.has(opt) : diagState[stateKey] === opt) ? " selected" : ""}"
+      onclick="selectOption(this, '${opt}', ${isMulti}, '${stateKey}', '${containerId}')">
+      ${opt}
+    </button>`).join("");
+}
+
+function selectOption(btn, value, isMulti, stateKey, containerId) {
+  if (isMulti) {
+    btn.classList.toggle("selected");
+    if (diagState.issues.has(value)) diagState.issues.delete(value);
+    else diagState.issues.add(value);
+    document.getElementById("btn-step3-next").disabled = diagState.issues.size === 0;
+  } else {
+    document.querySelectorAll(`#${containerId} .option-btn`).forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    diagState[stateKey] = value;
+    if (stateKey === "industry") document.getElementById("btn-step1-next").disabled = false;
+    if (stateKey === "scale") document.getElementById("btn-step2-next").disabled = false;
+  }
+}
+
+function goStep(n) {
+  document.querySelectorAll(".diag-step").forEach(s => s.classList.remove("active"));
+  document.getElementById(`step-${n}`).classList.add("active");
+  updateProgress(n);
+
+  if (n === 2) buildOptions("step2-options", STEP2_OPTIONS, false, "scale");
+  if (n === 3) buildOptions("step3-options", STEP3_OPTIONS, true, "issues");
+}
+
+function updateProgress(current) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`prog-${i}`);
+    if (!el) continue;
+    el.classList.remove("active", "done");
+    if (i < current) el.classList.add("done");
+    else if (i === current) el.classList.add("active");
+  }
+}
+
+function showResult() {
+  document.querySelectorAll(".diag-step").forEach(s => s.classList.remove("active"));
+  document.getElementById("step-result").classList.add("active");
+  updateProgress(4);
+
+  const issues = [...diagState.issues];
+  const matched = SUBSIDIES.filter(s => {
+    const industryOk = s.targetIndustry.includes("全業種") || s.targetIndustry.includes(diagState.industry);
+    const issueOk = issues.some(issue => s.targetIssues.includes(issue));
+    return industryOk && issueOk;
+  });
+
+  // Sort: open first, then upcoming, closed last
+  const order = { open: 0, upcoming: 1, unknown: 2, closed: 3 };
+  matched.sort((a, b) => order[a.status] - order[b.status]);
+
+  document.getElementById("result-title").textContent = `診断結果：${matched.length}件の助成金・補助金が見つかりました`;
+  document.getElementById("result-subtitle").textContent =
+    `業種：${diagState.industry} ／ 規模：${diagState.scale} ／ 課題：${issues.join("、")}`;
+
+  const resultCards = document.getElementById("result-cards");
+  if (matched.length === 0) {
+    resultCards.innerHTML = '<div class="result-empty">条件に合う助成金・補助金が見つかりませんでした。<br>別の課題を選んで再診断してみてください。</div>';
+  } else {
+    resultCards.innerHTML = matched.map(s => buildCard(s, true)).join("");
+  }
+}
+
+function resetDiag() {
+  diagState = { industry: null, scale: null, issues: new Set() };
+  buildOptions("step1-options", STEP1_OPTIONS, false, "industry");
+  document.getElementById("btn-step1-next").disabled = true;
+  document.getElementById("btn-step2-next").disabled = true;
+  document.getElementById("btn-step3-next").disabled = true;
+  goStep(1);
+}
+
+// ─────────────────────────────
+// Tab Switch
+// ─────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+  document.getElementById(`tab-${tab}`).classList.add("active");
+  document.querySelectorAll(".tab-btn")[tab === "dashboard" ? 0 : 1].classList.add("active");
+}
+
+// ─────────────────────────────
+// Init
+// ─────────────────────────────
+document.getElementById("last-updated").textContent = `最終更新：2026-06-13`;
+renderCards("all");
+renderAlertBanner();
+buildOptions("step1-options", STEP1_OPTIONS, false, "industry");
+</script>
+</body>
+</html>
