@@ -1,0 +1,536 @@
+{
+ "updatedAt": "2026-10-19",
+ "subsidies": [
+  {
+   "id": "s001",
+   "title": "【サンプル】東京都 中小企業デジタル導入促進補助金",
+   "prefecture": "東京都",
+   "city": "",
+   "agency": "東京都",
+   "postedAt": "2026-10-17",
+   "startDate": "2026-09-28",
+   "deadline": "2027-01-29",
+   "maxAmount": 150,
+   "subsidyRate": "1/2",
+   "categories": [
+    "AI・システム投資",
+    "生産性向上・設備投資"
+   ],
+   "industries": [],
+   "summary": "都内の中小企業に対し、デジタルツール導入費用の一部を補助し、業務効率化を支援します。",
+   "purpose": "デジタルツールの導入による業務効率化と競争力強化を目的とします。",
+   "targetBusiness": "会計・受発注・勤怠管理などのクラウドシステム導入",
+   "content": "ソフトウェア購入費、クラウド利用料（最大1年分）、導入コンサルティング費を補助します。",
+   "targetDetail": [
+    "都内に事業所を持つ中小企業・小規模事業者",
+    "都税の滞納がないこと"
+   ],
+   "officialUrl": "https://example.com/s001",
+   "contact": {
+    "name": "東京都 産業振興課",
+    "tel": "03-0000-0001"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-09-28"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-01-29"
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "title": "【サンプル】東京都 歴史ある建物の維持保全支援補助金",
+   "prefecture": "東京都",
+   "city": "",
+   "agency": "東京都",
+   "postedAt": "2026-10-09",
+   "startDate": "2026-06-10",
+   "deadline": "2027-01-29",
+   "maxAmount": 1000,
+   "subsidyRate": "2/3",
+   "categories": [
+    "災害・事業継続",
+    "環境・省エネ"
+   ],
+   "industries": [
+    "宿泊業",
+    "サービス業"
+   ],
+   "summary": "築50年以上の歴史的施設や伝統技術の維持保全に係る経費を補助します。",
+   "purpose": "観光資源となる歴史的建造物の維持と継承を目的とします。",
+   "targetBusiness": "歴史的建造物の修繕・耐震・防災工事",
+   "content": "修繕工事費、設計監理費を補助します。",
+   "targetDetail": [
+    "都内で観光関連事業を営む事業者",
+    "築50年以上の施設の所有者または管理者"
+   ],
+   "officialUrl": "https://example.com/s002",
+   "contact": {
+    "name": "東京都 観光部",
+    "tel": "03-0000-0002"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-06-10"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-01-29"
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "title": "【サンプル】町田市 中小企業向け試験研究機関利用事業補助金",
+   "prefecture": "東京都",
+   "city": "町田市",
+   "agency": "町田市",
+   "postedAt": "2026-09-26",
+   "startDate": "2026-04-01",
+   "deadline": "2027-03-12",
+   "maxAmount": 10,
+   "subsidyRate": "1/2",
+   "categories": [
+    "生産性向上・設備投資",
+    "特許・知的財産"
+   ],
+   "industries": [
+    "製造業",
+    "食品製造業"
+   ],
+   "summary": "公設試験研究機関の機器利用や依頼試験に要する経費の一部を補助します。",
+   "purpose": "新商品開発や既存商品の改良を技術面から支援します。",
+   "targetBusiness": "公設試験研究機関での機器利用・依頼試験",
+   "content": "機器利用料・依頼試験手数料を補助します。",
+   "targetDetail": [
+    "町田市内に事業所を有する中小企業者"
+   ],
+   "officialUrl": "https://example.com/s003",
+   "contact": {
+    "name": "町田市 経済観光課",
+    "tel": "042-000-0003"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-04-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-03-12"
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "title": "【サンプル】板橋区 宅配ボックス導入助成事業",
+   "prefecture": "東京都",
+   "city": "板橋区",
+   "agency": "板橋区",
+   "postedAt": "2026-09-19",
+   "startDate": "2026-04-01",
+   "deadline": "2027-02-15",
+   "maxAmount": 25,
+   "subsidyRate": "1/2",
+   "categories": [
+    "環境・省エネ"
+   ],
+   "industries": [
+    "不動産業",
+    "運輸業"
+   ],
+   "summary": "宅配ボックスの購入および設置費用の一部を補助します。",
+   "purpose": "再配達の抑制により物流の環境負荷を減らします。",
+   "targetBusiness": "宅配ボックスの購入・設置",
+   "content": "本体購入費・設置工事費を補助します。",
+   "targetDetail": [
+    "区内の戸建住宅所有者・事業者・管理組合等"
+   ],
+   "officialUrl": "https://example.com/s004",
+   "contact": {
+    "name": "板橋区 環境課",
+    "tel": "03-0000-0004"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-04-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-02-15"
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "title": "【サンプル】神奈川県 ものづくり設備投資応援補助金",
+   "prefecture": "神奈川県",
+   "city": "",
+   "agency": "神奈川県",
+   "postedAt": "2026-10-15",
+   "startDate": "2026-10-01",
+   "deadline": "2026-12-18",
+   "maxAmount": 1500,
+   "subsidyRate": "1/2",
+   "categories": [
+    "生産性向上・設備投資",
+    "AI・システム投資"
+   ],
+   "industries": [
+    "製造業",
+    "食品製造業"
+   ],
+   "summary": "県内製造業の省力化・高付加価値化のための設備投資を補助します。",
+   "purpose": "人手不足対応と生産性向上を目的とします。",
+   "targetBusiness": "機械装置・ロボット・検査装置の導入",
+   "content": "機械装置費、システム構築費を補助します。",
+   "targetDetail": [
+    "県内に主たる事業所を有する中小製造業者",
+    "賃上げ計画を策定すること"
+   ],
+   "officialUrl": "https://example.com/s005",
+   "contact": {
+    "name": "神奈川県 産業振興課",
+    "tel": "045-000-0005"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-10-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2026-12-18"
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "title": "【サンプル】大阪府 海外展開チャレンジ支援補助金",
+   "prefecture": "大阪府",
+   "city": "",
+   "agency": "大阪府",
+   "postedAt": "2026-10-12",
+   "startDate": "2026-10-12",
+   "deadline": "2027-02-26",
+   "maxAmount": 200,
+   "subsidyRate": "1/2",
+   "categories": [
+    "海外展開・インバウンド",
+    "販路拡大・マーケ"
+   ],
+   "industries": [],
+   "summary": "海外見本市出展や現地調査など、海外展開に要する経費を補助します。",
+   "purpose": "府内中小企業の海外販路開拓を支援します。",
+   "targetBusiness": "海外見本市への出展、海外向けWeb制作",
+   "content": "出展料、通訳費、翻訳費、Webサイト制作費を補助します。",
+   "targetDetail": [
+    "府内に本社を有する中小企業者"
+   ],
+   "officialUrl": "https://example.com/s006",
+   "contact": {
+    "name": "大阪府 国際課",
+    "tel": "06-0000-0006"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-10-12"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-02-26"
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "title": "【サンプル】愛知県 事業承継・M&A促進助成金",
+   "prefecture": "愛知県",
+   "city": "",
+   "agency": "愛知県",
+   "postedAt": "2026-10-08",
+   "startDate": "2026-07-01",
+   "deadline": "2026-11-30",
+   "maxAmount": 600,
+   "subsidyRate": "2/3",
+   "categories": [
+    "事業承継・M&A"
+   ],
+   "industries": [],
+   "summary": "事業承継やM&Aに伴う専門家費用・設備更新費用を助成します。",
+   "purpose": "後継者不在による廃業を防ぎ、地域の雇用を守ります。",
+   "targetBusiness": "事業承継・M&Aに係る専門家活用と設備更新",
+   "content": "専門家報酬、デューデリジェンス費用、承継後の設備投資費を助成します。",
+   "targetDetail": [
+    "県内の中小企業者",
+    "承継予定の後継者または譲受側事業者"
+   ],
+   "officialUrl": "https://example.com/s007",
+   "contact": {
+    "name": "愛知県 中小企業振興課",
+    "tel": "052-000-0007"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-07-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2026-11-30"
+    }
+   ]
+  },
+  {
+   "id": "s008",
+   "title": "【サンプル】和歌山県 特別高圧受電事業者支援金（第8次）",
+   "prefecture": "和歌山県",
+   "city": "",
+   "agency": "和歌山県",
+   "postedAt": "2026-10-17",
+   "startDate": "2026-10-17",
+   "deadline": "随時",
+   "maxAmount": null,
+   "subsidyRate": "定額",
+   "categories": [
+    "環境・省エネ"
+   ],
+   "industries": [
+    "製造業",
+    "サービス業"
+   ],
+   "summary": "電気料金高騰の影響を受ける特別高圧受電事業者に支援金を支給します。",
+   "purpose": "エネルギー価格高騰による事業者負担を軽減します。",
+   "targetBusiness": "特別高圧で受電している事業所の電気料金負担",
+   "content": "対象期間の電気料金の一部を定額で支給します。",
+   "targetDetail": [
+    "県内で特別高圧受電契約を結ぶ事業者"
+   ],
+   "officialUrl": "https://example.com/s008",
+   "contact": {
+    "name": "和歌山県 商工振興課",
+    "tel": "073-000-0008"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-10-17"
+    },
+    {
+     "label": "申請締切",
+     "date": "随時"
+    }
+   ]
+  },
+  {
+   "id": "s009",
+   "title": "【サンプル】全国 低炭素型建材活用新築ZEB支援事業補助金（三次公募）",
+   "prefecture": "全国",
+   "city": "",
+   "agency": "国（環境省）",
+   "postedAt": "2026-10-17",
+   "startDate": "2026-10-17",
+   "deadline": "2026-12-25",
+   "maxAmount": 5000,
+   "subsidyRate": "1/3",
+   "categories": [
+    "環境・省エネ",
+    "生産性向上・設備投資"
+   ],
+   "industries": [
+    "建設業",
+    "不動産業"
+   ],
+   "summary": "低炭素型建材を活用した新築ZEBの建設費の一部を補助します。",
+   "purpose": "建築物の脱炭素化を推進します。",
+   "targetBusiness": "新築ZEB（Nearly ZEB 以上）の建設",
+   "content": "設計費、設備費、工事費の一部を補助します。",
+   "targetDetail": [
+    "建築物の所有者または建築主",
+    "国内に所在する新築建築物"
+   ],
+   "officialUrl": "https://example.com/s009",
+   "contact": {
+    "name": "事務局",
+    "tel": "03-0000-0009"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-10-17"
+    },
+    {
+     "label": "申請締切",
+     "date": "2026-12-25"
+    }
+   ]
+  },
+  {
+   "id": "s010",
+   "title": "【サンプル】全国 賃上げ促進・人材育成助成金",
+   "prefecture": "全国",
+   "city": "",
+   "agency": "国（厚生労働省）",
+   "postedAt": "2026-10-05",
+   "startDate": "2026-04-01",
+   "deadline": "2027-03-31",
+   "maxAmount": 800,
+   "subsidyRate": "3/4",
+   "categories": [
+    "雇用・賃金・人材育成",
+    "経営戦略・組織改革"
+   ],
+   "industries": [],
+   "summary": "従業員の賃金引上げや職業訓練を行う事業主に助成します。",
+   "purpose": "人材育成と賃金底上げにより定着率を高めます。",
+   "targetBusiness": "職業訓練の実施、賃金規定の改定",
+   "content": "訓練経費、訓練期間中の賃金の一部を助成します。",
+   "targetDetail": [
+    "雇用保険適用事業所の事業主",
+    "賃金規定を労働者に周知していること"
+   ],
+   "officialUrl": "https://example.com/s010",
+   "contact": {
+    "name": "労働局 助成金センター",
+    "tel": "03-0000-0010"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-04-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-03-31"
+    }
+   ]
+  },
+  {
+   "id": "s011",
+   "title": "【サンプル】全国 創業・新事業進出支援補助金",
+   "prefecture": "全国",
+   "city": "",
+   "agency": "国（中小企業庁）",
+   "postedAt": "2026-10-01",
+   "startDate": "2026-10-01",
+   "deadline": "2027-01-15",
+   "maxAmount": 3000,
+   "subsidyRate": "1/2",
+   "categories": [
+    "起業・新事業創出",
+    "販路拡大・マーケ"
+   ],
+   "industries": [],
+   "summary": "創業や新規事業への進出に要する費用を補助します。",
+   "purpose": "新たな事業の創出による地域経済の活性化を図ります。",
+   "targetBusiness": "新商品開発、店舗改装、広告宣伝",
+   "content": "店舗借入費、設備費、広告費、専門家経費を補助します。",
+   "targetDetail": [
+    "創業予定者または創業3年以内の事業者",
+    "認定支援機関の確認を受けること"
+   ],
+   "officialUrl": "https://example.com/s011",
+   "contact": {
+    "name": "事務局",
+    "tel": "03-0000-0011"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-10-01"
+    },
+    {
+     "label": "申請締切",
+     "date": "2027-01-15"
+    }
+   ]
+  },
+  {
+   "id": "s012",
+   "title": "【サンプル】東京都 飲食店DX・キャッシュレス化推進助成金",
+   "prefecture": "東京都",
+   "city": "新宿区",
+   "agency": "新宿区",
+   "postedAt": "2026-09-14",
+   "startDate": "2026-09-14",
+   "deadline": "2026-11-20",
+   "maxAmount": 50,
+   "subsidyRate": "2/3",
+   "categories": [
+    "AI・システム投資",
+    "販路拡大・マーケ"
+   ],
+   "industries": [
+    "飲食業",
+    "小売業"
+   ],
+   "summary": "飲食店・小売店のモバイルオーダーやキャッシュレス端末導入を助成します。",
+   "purpose": "店舗のDXと人手不足対策を後押しします。",
+   "targetBusiness": "モバイルオーダー、POSレジ、決済端末の導入",
+   "content": "システム導入費、端末購入費、通信費を助成します。",
+   "targetDetail": [
+    "新宿区内で店舗を営む事業者"
+   ],
+   "officialUrl": "https://example.com/s012",
+   "contact": {
+    "name": "新宿区 商工課",
+    "tel": "03-0000-0012"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-09-14"
+    },
+    {
+     "label": "申請締切",
+     "date": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "id": "s013",
+   "title": "【サンプル】福岡県 災害・BCP策定支援補助金",
+   "prefecture": "福岡県",
+   "city": "",
+   "agency": "福岡県",
+   "postedAt": "2026-08-20",
+   "startDate": "2026-04-15",
+   "deadline": "2026-09-30",
+   "maxAmount": 100,
+   "subsidyRate": "1/2",
+   "categories": [
+    "災害・事業継続"
+   ],
+   "industries": [],
+   "summary": "事業継続計画（BCP）の策定と防災設備の導入を補助します。",
+   "purpose": "災害時の事業継続力を高めます。",
+   "targetBusiness": "BCP策定、非常用電源・防災備蓄の整備",
+   "content": "策定支援費用、非常用発電機等の購入費を補助します。",
+   "targetDetail": [
+    "県内の中小企業者"
+   ],
+   "officialUrl": "https://example.com/s013",
+   "contact": {
+    "name": "福岡県 経営支援課",
+    "tel": "092-000-0013"
+   },
+   "schedule": [
+    {
+     "label": "公募開始",
+     "date": "2026-04-15"
+    },
+    {
+     "label": "申請締切",
+     "date": "2026-09-30"
+    }
+   ]
+  }
+ ]
+}

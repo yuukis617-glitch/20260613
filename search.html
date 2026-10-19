@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>補助金 検索結果 | 補助金ポータル（サンプル）</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="search">
+<main class="wrap">
+  <div class="breadcrumb"><a href="index.html">TOP</a> › 補助金 検索結果</div>
+  <div class="layout">
+    <form class="sidebar" id="filter-form">
+      <div class="sidebar-head">絞込み検索 <button type="button" id="reset">↻リセット</button></div>
+      <div class="filter">
+        <h3>📍 地域</h3>
+        <select id="pref" aria-label="都道府県"></select>
+        <select id="city" aria-label="区市町村"></select>
+      </div>
+      <div class="filter">
+        <h3>🏭 業種 <span class="mini"><button type="button" data-all="ind" data-on="1">全選択</button><button type="button" data-all="ind" data-on="0">クリア</button></span></h3>
+        <div class="checks" id="ind-list"></div>
+      </div>
+      <div class="filter">
+        <h3>🔖 カテゴリ <span class="mini"><button type="button" data-all="cat" data-on="1">全選択</button><button type="button" data-all="cat" data-on="0">クリア</button></span></h3>
+        <div class="checks" id="cat-list"></div>
+      </div>
+      <div class="filter">
+        <h3>💴 上限金額</h3>
+        <div class="amount-row"><input type="number" id="min" min="0" placeholder="半角数字">万円以上</div>
+      </div>
+      <div class="filter">
+        <h3>🔎 キーワード</h3>
+        <input type="text" id="keyword" placeholder="例:ものづくり補助金、最低賃金">
+      </div>
+      <div class="filter">
+        <h3>🚩 公募ステータス</h3>
+        <div class="checks" id="st-list"></div>
+      </div>
+      <button class="btn-search" type="submit">🔍 検索</button>
+    </form>
+
+    <section>
+      <div class="result-head">
+        <h1><b id="count">0</b>件 の補助金が見つかりました。</h1>
+        <div>
+          <select id="sort" aria-label="並び替え">
+            <option value="new">新着順</option><option value="amount">上限金額順</option><option value="deadline">締切が近い順</option>
+          </select>
+          <select id="per" aria-label="表示件数"><option value="10">10件</option><option value="20">20件</option><option value="50">50件</option></select>
+        </div>
+      </div>
+      <div id="results" aria-live="polite"></div>
+      <div class="pager" id="pager"></div>
+    </section>
+  </div>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>
